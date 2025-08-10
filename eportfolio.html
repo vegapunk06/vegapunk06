@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdelaziz Elsayed - E-Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #3665b3 0%, #2850a0 25%, #1f4788 75%, #1a3d7a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .xp-window {
+            background: #ece9d8;
+            border: 2px outset #ece9d8;
+            border-radius: 8px 8px 0 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .title-bar {
+            background: linear-gradient(to bottom, #0997ff 0%, #0053ee 4%, #0050ee 6%, #0055ee 8%, #0058ee 10%, #005fee 12%, #0062ee 14%, #0065ee 16%, #0068ee 18%, #006bee 20%, #006eee 25%, #0071ee 50%, #0074ee 75%, #0077ee 100%);
+            color: white;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .window-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .favicon {
+            width: 16px;
+            height: 16px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23fff"/><path d="M2 2h12v12H2z" fill="%234285f4"/></svg>') no-repeat;
+            margin-right: 4px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .control-btn {
+            width: 16px;
+            height: 14px;
+            background: linear-gradient(to bottom, #ddd, #bbb);
+            border: 1px outset #ddd;
+            font-size: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .toolbar {
+            background: #ece9d8;
+            border-bottom: 1px solid #9c9a91;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-btn {
+            background: linear-gradient(to bottom, #f5f4f1, #e8e6df);
+            border: 1px outset #ece9d8;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .toolbar-btn:hover {
+            background: linear-gradient(to bottom, #e8e6df, #ddd9d0);
+        }
+
+        .toolbar-btn:active {
+            border: 1px inset #ece9d8;
+        }
+
+        .address-bar {
+            background: white;
+            border: 1px inset #ece9d8;
+            padding: 2px 4px;
+            flex: 1;
+            font-size: 11px;
+            min-width: 200px;
+        }
+
+        .content-area {
+            background: white;
+            min-height: 600px;
+            overflow: auto;
+        }
+
+        .page-content {
+            padding: 20px;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            background: linear-gradient(to bottom, #f5f4f1, #e8e6df);
+            border-bottom: 2px solid #9c9a91;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(to bottom, #4a90e2, #357abd);
+            color: white;
+            border: 2px outset #4a90e2;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(to bottom, #5ba0f2, #4080cd);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:active {
+            border: 2px inset #4a90e2;
+            transform: translateY(1px);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(to bottom, #357abd, #2d6ba0);
+            border: 2px inset #357abd;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page Layout */
+        .home-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-pic {
+            width: 200px;
+            height: 250px;
+            background-image: url('me.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 1px solid #d0d0d0;
+            border-radius: 5px;
+        }
+
+        .profile-panel {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #90caf9;
+            text-align: center;
+            height: fit-content;
+        }
+
+        .profile-panel h1 {
+            color: #1565c0;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .profile-panel .subtitle {
+            color: #1976d2;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .content-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .section h2 {
+            color: #1565c0;
+            border-bottom: 2px solid #42a5f5;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .swot-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .swot-item h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .swot-item p {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #666;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .skill-category {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .skill-category h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .skill-tag {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            border: 1px solid #bbdefb;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .project-card h3 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #42a5f5;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #42a5f5;
+            border: 2px solid white;
+        }
+
+        .timeline-date {
+            background: #1565c0;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #42a5f5, #1976d2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .contact-link {
+            color: #1565c0;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .home-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 80%;
+                max-width: 200px;
+            }
+            
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .address-bar {
+                margin-top: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="xp-window">
+        <div class="title-bar">
+            <div class="window-title">
+                <div class="favicon"></div>
+                <span>Abdelaziz Elsayed - E-Portfolio - Internet Explorer</span>
+            </div>
+            <div class="window-controls">
+                <div class="control-btn">_</div>
+                <div class="control-btn">□</div>
+                <div class="control-btn">×</div>
+            </div>
+        </div>
+        
+        <div class="toolbar">
+            <div class="toolbar-btn" id="refreshBtn">Refresh</div>
+            <div class="toolbar-btn" id="homeBtn">Home</div>
+            <div class="address-bar">https://abdelaziz-elsayed.portfolio.com</div>
+            <div class="toolbar-btn">Go</div>
+        </div>
+
+        <div class="content-area">
+            <div class="nav-menu">
+                <div class="nav-buttons">
+                    <button class="nav-btn active" onclick="showPage('home')">🏠 Home</button>
+                    <button class="nav-btn" onclick="showPage('about')">👤 About Me</button>
+                    <button class="nav-btn" onclick="showPage('projects')">🚀 Projects</button>
+                    <button class="nav-btn" onclick="showPage('experience')">🎓 Experience & Education</button>
+                    <button class="nav-btn" onclick="showPage('contact')">📧 Contact</button>
+                </div>
+            </div>
+
+            <div class="page-content">
+                <!-- HOME PAGE -->
+                <div id="home" class="page active">
+                    <div class="home-layout">
+                        <div class="profile-section">
+                            <div class="profile-pic"></div>
+                            <div class="profile-panel">
+                                <h1>Abdelaziz Osama Ahmed Elsayed</h1>
+                                <p class="subtitle">Electrical & Electronics Engineering Student</p>
+                            </div>
+                        </div>
+                        
+                        <div class="content-panel">
+                            <div class="section">
+                                <h2>🎯 Mission Statement</h2>
+                                <p>To apply my engineering knowledge, technical skills, and innovative mindset to develop sustainable, technology-driven solutions, while continuously learning and upholding the highest standards of professionalism and ethical responsibility.</p>
+                            </div>
+                            
+                            <div class="section">
+                                <h2>👤 About Me</h2>
+                                <p>As an enthusiastic Electrical and Electronics Engineering student, I've acquired solid foundation in electrical principles, circuit design, power electronics, digital signals and systems, programming, and electrical machines. My journey is marked by strong perseverance and commitment to excellence and results, as reflected by my coursework and hands-on projects. I am looking forward to applying my skills in any ideal workspace, and I am well prepared for any obstacles and challenges with a collaborative mindset and perseverance.</p>
+                            </div>
+                            
+                            <div class="section">
+                                <h2>📊 SWOT Analysis</h2>
+                                <div class="swot-grid">
+                                    <div class="swot-item">
+                                        <h3>💪 Strengths</h3>
+                                        <p>Consistently strong academic performance with solid understanding of engineering principles. Practical industry exposure through internships and real-world projects. Proficient in electrical systems, programming, CAD design, and IoT-enabled solutions. Effective communication, project management, and adaptability in diverse project environments.</p>
+                                    </div>
+                                    
+                                    <div class="swot-item">
+                                        <h3>⚠️ Weaknesses</h3>
+                                        <p>Areas for growth in PLO 11 (multidisciplinary leadership) and PLO 7 (sustainability integration). Limited long-term industry work experience compared to seasoned candidates. Time management challenges when handling multiple concurrent tasks. Networking skills still developing for broader professional reach.</p>
+                                    </div>
+                                    
+                                    <div class="swot-item">
+                                        <h3>🚀 Opportunities</h3>
+                                        <p>Build and strengthen professional networks within engineering communities. Leverage expertise in IoT, AI, and automation to meet rising market demands. Explore emerging job opportunities in new and evolving tech sectors. Capitalize on global Industry 4.0 adoption and digital transformation trends.</p>
+                                    </div>
+                                    
+                                    <div class="swot-item">
+                                        <h3>🔻 Threats</h3>
+                                        <p>Highly competitive industry with many qualified graduates. AI evolution potentially replacing certain technical roles. Limited work experience could be a barrier for advanced positions. Risk of falling behind without continuous upskilling in fast-changing technologies.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABOUT ME PAGE -->
+                <div id="about" class="page">
+                    <div class="section">
+                        <h2>Technical Skills & Expertise</h2>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h3>Programming Languages</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">C Programming</span>
+                                    <span class="skill-tag">MATLAB</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h3>Design & CAD</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">SOLIDWORKS</span>
+                                    <span class="skill-tag">CAD/CAM</span>
+                                    <span class="skill-tag">Circuit Design</span>
+                                    <span class="skill-tag">3D Printing</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h3>Electrical Systems</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Power Electronics</span>
+                                    <span class="skill-tag">Digital Systems</span>
+                                    <span class="skill-tag">Electrical Machines</span>
+                                    <span class="skill-tag">SCADA Systems</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h3>Emerging Technologies</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">IoT Development</span>
+                                    <span class="skill-tag">AI & Machine Learning</span>
+                                    <span class="skill-tag">Automation</span>
+                                    <span class="skill-tag">Robotics</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h3>Professional Skills</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Project Management</span>
+                                    <span class="skill-tag">Leadership</span>
+                                    <span class="skill-tag">Team Collaboration</span>
+                                    <span class="skill-tag">Public Relations</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h3>Languages</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">English (Fluent)</span>
+                                    <span class="skill-tag">Arabic (Fluent)</span>
+                                    <span class="skill-tag">Bahasa Indonesia (Basic)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>🏆 Certifications & Achievements</h2>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h3>📊 MATLAB Coding</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Certified</span>
+                                    <span class="skill-tag">Programming</span>
+                                    <span class="skill-tag">Data Analysis</span>
+                                    <span class="skill-tag">Simulation</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h3>🏎️ AWS DeepRacer Competition</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Participant</span>
+                                    <span class="skill-tag">Machine Learning</span>
+                                    <span class="skill-tag">Reinforcement Learning</span>
+                                    <span class="skill-tag">AWS Cloud</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROJECTS PAGE -->
+                <div id="projects" class="page">
+                    <div class="section">
+                        <h2>Featured Projects</h2>
+                        <div class="project-grid">
+                            <div class="project-card">
+                                <h3>🦶 Smart Sports Shoe with IoT Features</h3>
+                                <p><strong>Final Year Project</strong><br>
+                                Designed and developed a custom-tailored 3D printed sports shoe using LiDAR technology to capture foot structure. Integrated IoT-based system for monitoring biometric data including foot pressure distribution, steps, speed, calories burned, and distance. Features real-time location tracking with embedded map dashboard.</p>
+                            </div>
+                            
+                            <div class="project-card">
+                                <h3>👓 Smart Glasses for Visually Impaired</h3>
+                                <p><strong>Group Project</strong><br>
+                                Collaborated with multidisciplinary engineering students (Mechatronics, Computer, and others) to develop innovative smart glasses for visually impaired individuals. This project enhanced my understanding of cross-disciplinary engineering concepts and teamwork dynamics.</p>
+                            </div>
+                            
+                            <div class="project-card">
+                                <h3>🏠 Smart House Automation System</h3>
+                                <p><strong>Microprocessors & Embedded Systems</strong><br>
+                                Established a comprehensive SMART house system with digitally controlled temperature management, advanced security system, and voice-assisted control features using microprocessor and embedded systems technology.</p>
+                            </div>
+                            
+                            <div class="project-card">
+                                <h3>🔋 DC Charger for Electric Vehicles</h3>
+                                <p><strong>Power Electronics Project</strong><br>
+                                Developed a sophisticated SIMULINK system for DC charging infrastructure for electric vehicles, focusing on power conversion efficiency and charging optimization algorithms.</p>
+                            </div>
+                            
+                            <div class="project-card">
+                                <h3>🤖 AI Hand Gesture Recognition</h3>
+                                <p><strong>Machine Learning Project</strong><br>
+                                Created an advanced hand motion and gesture identification system using AI training models. The system demonstrates proficiency in computer vision and machine learning algorithm implementation.</p>
+                            </div>
+                            
+                            <div class="project-card">
+                                <h3>💻 Software Development Projects</h3>
+                                <p><strong>Programming Applications</strong><br>
+                                Developed a comprehensive banking system using Python with secure transaction processing. Also created a greenhouse monitoring system using C Programming for environmental control and data logging.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXPERIENCE & EDUCATION PAGE -->
+                <div id="experience" class="page">
+                    <div class="section">
+                        <h2>Professional Experience</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">Aug 2024 - Nov 2024</div>
+                                <h3>Internship - Perusahaan Listrik Negara (PT PLN)</h3>
+                                <p><strong>Indonesia's State-Owned Electricity Company</strong></p>
+                                <p>• Gained hands-on experience with power distribution networks (SCADA, LBS, RTU) and field maintenance activities</p>
+                                <p>• Improved technical expertise, problem-solving, and teamwork by collaborating with departments like DCC and Protection Unit</p>
+                                <p>• Developed professional self-confidence, communication skills, and enhanced engineering enthusiasm through real-world exposure</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-date">2023 - 2024</div>
+                                <h3>Engineering Technical Assistant</h3>
+                                <p><strong>Asia Pacific University of Technology and Innovation</strong></p>
+                                <p>• Assisted students and staff members in navigating through engineering labs and equipment maintenance</p>
+                                <p>• Gained hands-on practical experience with electrical, automation, and machinery-related experiments</p>
+                                <p>• Enhanced understanding of electrical circuits and theoretical engineering concepts</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-date">2020</div>
+                                <h3>Event Organizer / Marketing Manager</h3>
+                                <p><strong>Asia Pacific University of Technology and Innovation</strong></p>
+                                <p>• Led and managed marketing teams, implementing strategies and campaigns to attract public attention</p>
+                                <p>• Developed leadership, public relations, and event management skills</p>
+                                <p>• Enhanced communication and organizational capabilities</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>Education</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2021 - 2025</div>
+                                <h3>Bachelor of Electrical and Electronics Engineering with Honours</h3>
+                                <p><strong>Asia Pacific University of Technology and Innovation (APU/APIIT)</strong></p>
+                                <p>• Currently in final year with strong academic performance</p>
+                                <p>• Specialized in IoT systems, power electronics, and automation</p>
+                                <p>• Active in practical projects and research initiatives</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-date">2015 - 2021</div>
+                                <h3>High School Diploma</h3>
+                                <p><strong>Al-Oruba International School</strong></p>
+                                <p>• Graduated with strong foundation in mathematics and sciences</p>
+                                <p>• Developed initial interest in engineering and technology</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTACT PAGE -->
+                <div id="contact" class="page">
+                    <div class="section">
+                        <h2>Get In Touch</h2>
+                        <p style="text-align: center; margin-bottom: 30px;">I'm always interested in discussing new opportunities, collaborations, and innovative engineering projects. Feel free to reach out!</p>
+                        
+                        <div class="contact-info">
+                            <div class="contact-card">
+                                <div class="contact-icon">📧</div>
+                                <h3>Email</h3>
+                                <a href="mailto:abdulazizosama2001@gmail.com" class="contact-link">
+                                    abdulazizosama2001@gmail.com
+                                </a>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <div class="contact-icon">📱</div>
+                                <h3>Phone</h3>
+                                <a href="tel:+60112379389" class="contact-link">
+                                    +60 11-2379-3389
+                                </a>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <div class="contact-icon">💼</div>
+                                <h3>LinkedIn</h3>
+                                <a href="https://www.linkedin.com/in/abdelaziz-elsayed-841696258/" class="contact-link" target="_blank">
+                                    linkedin.com/in/abdelaziz-elsayed-841696258/
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section" style="text-align: center;">
+                        <h2>Let's Build Something Amazing Together</h2>
+                        <p>Whether you're looking for a dedicated engineering intern, a project collaborator, or someone passionate about innovative technology solutions, I'd love to hear from you. Let's connect and explore how we can create impactful engineering solutions together!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Remove active class from all nav buttons
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update address bar
+            const addressBar = document.querySelector('.address-bar');
+            const urls = {
+                'home': 'https://abdelaziz-elsayed.portfolio.com',
+                'about': 'https://abdelaziz-elsayed.portfolio.com/about',
+                'projects': 'https://abdelaziz-elsayed.portfolio.com/projects',
+                'experience': 'https://abdelaziz-elsayed.portfolio.com/experience',
+                'contact': 'https://abdelaziz-elsayed.portfolio.com/contact'
+            };
+            addressBar.textContent = urls[pageId];
+        }
+
+        // Add some nostalgic XP sounds and interactions
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(2px)';
+            });
+            
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-1px)';
+            });
+        });
+
+        // Window control interactions
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent === '×') {
+                    if (confirm('Are you sure you want to close this window? (Just kidding, this is just for nostalgia!)')) {
+                        alert('Thanks for visiting my portfolio! 😊');
+                    }
+                } else if (this.textContent === '_') {
+                    alert('Minimize function - Classic Windows XP style! 📦');
+                } else if (this.textContent === '□') {
+                    alert('Maximize function - Bringing back the memories! 📺');
+                }
+            });
+        });
+
+        // Toolbar button interactions
+        document.getElementById('refreshBtn').addEventListener('click', function() {
+            location.reload();
+        });
+
+        document.getElementById('homeBtn').addEventListener('click', function() {
+            showPage('home');
+            // Reset nav button active state
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.nav-btn').classList.add('active');
+        });
+
+        // Go button functionality
+        document.querySelector('.toolbar-btn:last-child').addEventListener('click', function() {
+            alert('Navigation complete! Welcome to my portfolio! 🌟');
+        });
+    </script>
+</body>
+</html>
